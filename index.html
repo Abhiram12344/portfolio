@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GUDIMETLA G SAI ABHIRAM | Software Engineer Portfolio</title>
+  <meta name="description" content="Portfolio of Gudimetla G Sai Abhiram, a Computer Science student graduating in 2027 with experience in Python backend development, Agentic AI, FastAPI, and RAG applications." />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            canvas: '#F7F7F5',
+            ink: '#171717',
+            muted: '#707070',
+            border: '#E5E5E3',
+          },
+        },
+      },
+    };
+  </script>
+  
+  <style>
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: #F7F7F5;
+      color: #171717;
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+    ::selection { background: #171717; color: #F7F7F5; }
+
+    /* ID Card 3D tilt */
+    .id-card-scene {
+      perspective: 1200px;
+    }
+    .id-card {
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out;
+      will-change: transform;
+    }
+    .id-card-inner {
+      transform-style: preserve-3d;
+    }
+    .id-card-glare {
+      background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.35) 50%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .id-card-scene:hover .id-card-glare {
+      opacity: 1;
+    }
+
+    /* Lanyard */
+    .lanyard-strap {
+      background: linear-gradient(90deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+    .lanyard-clip {
+      background: linear-gradient(180deg, #d4d4d4 0%, #a3a3a3 100%);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    /* Scroll indicator */
+    @keyframes scrollPulse {
+      0%, 100% { transform: translateY(0); opacity: 0.6; }
+      50% { transform: translateY(5px); opacity: 1; }
+    }
+    .scroll-dot { animation: scrollPulse 2s ease-in-out infinite; }
+
+    /* Subtle reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Decorative circle */
+    .deco-circle {
+      border: 1px solid #E5E5E3;
+      border-radius: 50%;
+    }
+
+    /* Custom focus ring */
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid #171717;
+      outline-offset: 3px;
+    }
+
+    /* Nav underline */
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #171717;
+      transition: width 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .nav-link:hover::after, .nav-link.active::after {
+      width: 100%;
+    }
+
+    /* Project card hover */
+    .project-card {
+      transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), border-color 0.3s ease;
+    }
+    .project-card:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Chip hover */
+    .chip {
+      transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    }
+    .chip:hover {
+      transform: translateY(-1px);
+      border-color: #171717;
+      background: #fff;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .id-card { transition: none; }
+      .scroll-dot { animation: none; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent border-b border-transparent">
+    <div class="max-w-[1120px] mx-auto px-6 md:px-8">
+      <div class="flex items-center justify-between h-16 md:h-[72px]">
+        <!-- Logo -->
+        <a href="#home" class="font-serif text-xl tracking-tight hover:opacity-70 transition-opacity" aria-label="Back to top">GSA</a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center gap-8">
+          <a href="#home" class="nav-link text-[13px] tracking-wide text-muted hover:text-ink transition-colors py-1" data-nav="home">Home</a>
+          <a href="#about" class="nav-link text-[13px] tracking-wide text-muted hover:text-ink transition-colors py-1" data-nav="about">About</a>
+          <a href="#experience" class="nav-link text-[13px] tracking-wide text-muted hover:text-ink transition-colors py-1" data-nav="experience">Experience</a>
+          <a href="#projects" class="nav-link text-[13px] tracking-wide text-muted hover:text-ink transition-colors py-1" data-nav="projects">Projects</a>
+          <a href="#skills" class="nav-link text-[13px] tracking-wide text-muted hover:text-ink transition-colors py-1" data-nav="skills">Skills</a>
+          <a href="#contact" class="nav-link text-[13px] tracking-wide text-muted hover:text-ink transition-colors py-1" data-nav="contact">Contact</a>
+          <span class="text-[10px] font-mono tracking-[0.15em] text-muted border-l border-border pl-6">OPEN TO SWE OPPORTUNITIES</span>
+        </div>
+
+        <!-- Mobile menu button -->
+        <button id="mobileMenuBtn" class="md:hidden p-2 -mr-2" aria-label="Open menu" aria-expanded="false">
+          <svg id="menuIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <svg id="closeIcon" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="md:hidden hidden border-t border-border bg-canvas">
+      <div class="px-6 py-4 flex flex-col gap-1">
+        <a href="#home" class="mobile-nav-link text-left py-3 text-sm tracking-wide border-b border-border text-ink">Home</a>
+        <a href="#about" class="mobile-nav-link text-left py-3 text-sm tracking-wide border-b border-border text-muted">About</a>
+        <a href="#experience" class="mobile-nav-link text-left py-3 text-sm tracking-wide border-b border-border text-muted">Experience</a>
+        <a href="#projects" class="mobile-nav-link text-left py-3 text-sm tracking-wide border-b border-border text-muted">Projects</a>
+        <a href="#skills" class="mobile-nav-link text-left py-3 text-sm tracking-wide border-b border-border text-muted">Skills</a>
+        <a href="#contact" class="mobile-nav-link text-left py-3 text-sm tracking-wide border-b border-border text-muted">Contact</a>
+        <span class="text-[10px] font-mono tracking-[0.15em] text-muted pt-4">OPEN TO SWE OPPORTUNITIES</span>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ===== HERO ===== -->
+    <section id="home" class="relative min-h-screen flex flex-col justify-center pt-24 pb-16 md:pt-32 md:pb-24">
+      <div class="max-w-[1120px] mx-auto px-6 md:px-8 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+          
+          <!-- Left: Text content -->
+          <div class="lg:col-span-7">
+            <span class="reveal font-mono text-[10px] md:text-[11px] tracking-[0.25em] text-muted uppercase block" style="transition-delay:0.05s">
+              Software Engineer in the making · India
+            </span>
+
+            <h1 class="reveal mt-6 md:mt-8 font-serif text-[clamp(2.2rem,7vw,5rem)] leading-[1.05] tracking-[-0.02em] text-ink" style="transition-delay:0.15s">
+              GUDIMETLA<br />
+              <span class="italic font-light">G SAI ABHIRAM</span>
+            </h1>
+
+            <div class="reveal mt-8 md:mt-10 w-full max-w-[400px] h-px bg-ink origin-left" style="transition-delay:0.3s"></div>
+
+            <p class="reveal mt-8 text-lg md:text-xl font-light text-ink tracking-tight" style="transition-delay:0.35s">
+              Building Python Backends &amp; AI-Powered Applications.
+            </p>
+
+            <p class="reveal mt-4 max-w-[560px] text-[15px] leading-relaxed text-muted" style="transition-delay:0.45s">
+              Final-year Computer Science student graduating in 2027, with hands-on experience in Python backend development, Agentic AI initiatives, and Retrieval-Augmented Generation systems. Interested in building reliable software and practical AI applications.
+            </p>
+
+            <div class="reveal mt-8 flex flex-wrap items-center gap-4" style="transition-delay:0.55s">
+              <a href="#projects" class="group inline-flex items-center gap-2 bg-ink text-canvas px-6 py-3 text-[13px] tracking-wide hover:bg-[#333] transition-colors duration-300">
+                Explore My Work
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform duration-300"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+              <a href="#contact" class="group inline-flex items-center gap-2 border border-ink text-ink px-6 py-3 text-[13px] tracking-wide hover:bg-ink hover:text-canvas transition-all duration-300">
+                Get In Touch
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
+            </div>
+
+            <div class="reveal mt-6" style="transition-delay:0.65s">
+              <a href="#" onclick="alert('Resume link placeholder — replace with actual file.'); return false;" class="inline-flex items-center gap-1 text-[13px] text-muted hover:text-ink transition-colors underline underline-offset-4 decoration-border hover:decoration-ink">
+                View Resume
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
+            </div>
+
+            <div class="reveal mt-10 md:mt-14" style="transition-delay:0.75s">
+              <span class="font-mono text-[11px] tracking-[0.15em] text-muted">Python · FastAPI · AI/LLMs · SQL · Git</span>
+            </div>
+          </div>
+
+          <!-- Right: ID Card Animation -->
+          <div class="lg:col-span-5 flex justify-center lg:justify-end">
+            <div class="id-card-scene" id="idCardScene">
+              <div class="id-card" id="idCard">
+                <div class="id-card-inner relative">
+                  
+                  <!-- Lanyard strap -->
+                  <div class="absolute -top-20 left-1/2 -translate-x-1/2 w-[3px] h-20 lanyard-strap rounded-t-full"></div>
+                  <!-- Lanyard clip -->
+                  <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-6 h-4 rounded-sm lanyard-clip z-10"></div>
+                  <!-- Clip hole -->
+                  <div class="absolute -top-0.5 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-ink z-20"></div>
+
+                  <!-- Card -->
+                  <div class="relative w-[260px] sm:w-[280px] bg-white border border-border rounded-lg shadow-[0_20px_50px_-15px_rgba(0,0,0,0.15)] overflow-hidden">
+                    
+                    <!-- Card header strip -->
+                    <div class="h-10 bg-ink flex items-center justify-between px-4">
+                      <span class="font-mono text-[9px] tracking-[0.2em] text-white/70">EMPLOYEE ID</span>
+                      <span class="font-mono text-[9px] tracking-[0.2em] text-white/70">GSA-2027</span>
+                    </div>
+
+                    <!-- Photo -->
+                    <div class="px-5 pt-5 pb-3">
+                      <div class="w-full aspect-[4/5] bg-[#f0f0ee] rounded-md overflow-hidden border border-border relative">
+                        <img 
+                          src="https://lh3.googleusercontent.com/d/1QmQHT5qAGIvvUB1oEczk7CM8DOQhQmL_?authuser=0" 
+                          alt="GUDIMETLA G SAI ABHIRAM" 
+                          class="w-full h-full object-cover object-top"
+                        />
+                        <!-- Glare overlay -->
+                        <div class="id-card-glare absolute inset-0"></div>
+                      </div>
+                    </div>
+
+                    <!-- Details -->
+                    <div class="px-5 pb-5">
+                      <p class="font-serif text-[17px] leading-tight text-ink tracking-tight">GUDIMETLA G SAI ABHIRAM</p>
+                      <p class="mt-0.5 font-mono text-[9px] tracking-[0.15em] text-muted uppercase">Software Employee</p>
+                      
+                      <div class="mt-3 pt-3 border-t border-border grid grid-cols-2 gap-y-2 gap-x-3">
+                        <div>
+                          <span class="font-mono text-[8px] tracking-[0.15em] text-muted uppercase">Role</span>
+                          <p class="text-[10px] text-ink mt-0.5">Python Developer</p>
+                        </div>
+                        <div>
+                          <span class="font-mono text-[8px] tracking-[0.15em] text-muted uppercase">Dept.</span>
+                          <p class="text-[10px] text-ink mt-0.5">Software Eng.</p>
+                        </div>
+                        <div>
+                          <span class="font-mono text-[8px] tracking-[0.15em] text-muted uppercase">Location</span>
+                          <p class="text-[10px] text-ink mt-0.5">Andhra Pradesh</p>
+                        </div>
+                        <div>
+                          <span class="font-mono text-[8px] tracking-[0.15em] text-muted uppercase">Status</span>
+                          <p class="text-[10px] text-ink mt-0.5">Active</p>
+                        </div>
+                      </div>
+
+                      <!-- Barcode -->
+                      <div class="mt-4 flex items-end gap-[2px] h-6 opacity-70">
+                        <div class="w-[2px] h-full bg-ink"></div><div class="w-[1px] h-full bg-ink"></div><div class="w-[3px] h-full bg-ink"></div><div class="w-[1px] h-[70%] bg-ink"></div><div class="w-[2px] h-full bg-ink"></div><div class="w-[1px] h-[80%] bg-ink"></div><div class="w-[3px] h-full bg-ink"></div><div class="w-[1px] h-[60%] bg-ink"></div><div class="w-[2px] h-full bg-ink"></div><div class="w-[1px] h-full bg-ink"></div><div class="w-[3px] h-[90%] bg-ink"></div><div class="w-[1px] h-full bg-ink"></div><div class="w-[2px] h-[70%] bg-ink"></div><div class="w-[1px] h-full bg-ink"></div><div class="w-[3px] h-full bg-ink"></div><div class="w-[1px] h-[80%] bg-ink"></div><div class="w-[2px] h-full bg-ink"></div><div class="w-[1px] h-[60%] bg-ink"></div><div class="w-[3px] h-full bg-ink"></div><div class="w-[1px] h-full bg-ink"></div><div class="w-[2px] h-[90%] bg-ink"></div><div class="w-[1px] h-full bg-ink"></div><div class="w-[3px] h-[70%] bg-ink"></div>
+                      </div>
+                      <p class="mt-1 font-mono text-[7px] tracking-[0.3em] text-muted">2027 · GSA · SWE</p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2">
+        <div class="flex flex-col items-center gap-2 text-muted">
+          <span class="font-mono text-[9px] tracking-[0.2em] uppercase">Scroll</span>
+          <svg class="scroll-dot" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about" class="py-20 md:py-32 border-t border-border">
+      <div class="max-w-[1120px] mx-auto px-6 md:px-8">
+        <div class="reveal">
+          <span class="font-mono text-[11px] tracking-[0.2em] text-muted uppercase">01 / About</span>
+          <h2 class="mt-4 font-serif text-[clamp(1.8rem,4vw,3rem)] tracking-[-0.02em] text-ink">A little about me.</h2>
+        </div>
+
+        <div class="mt-10 md:mt-16 grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
+          <div class="reveal lg:col-span-3" style="transition-delay:0.1s">
+            <div class="space-y-5 text-[15px] leading-[1.8] text-muted">
+              <p>I'm a final-year B.Tech Computer Science student at Pragati Engineering College, graduating in 2027. I enjoy working at the intersection of software engineering and artificial intelligence, especially building Python-based backend services and applications that solve practical problems.</p>
+              <p>My experience includes contributing to Agentic AI engineering initiatives during my internship at Accenture and developing a document-grounded question-answering service using Python, FastAPI, and Retrieval-Augmented Generation.</p>
+              <p>I'm continuously strengthening my understanding of data structures, algorithms, object-oriented programming, databases, and backend development. I'm looking for an opportunity to contribute to a strong engineering team, learn from experienced developers, and build useful, reliable software.</p>
+            </div>
+          </div>
+
+          <div class="reveal lg:col-span-2" style="transition-delay:0.2s">
+            <div class="relative">
+              <div class="deco-circle absolute -top-4 -right-4 w-24 h-24 md:w-32 md:h-32" aria-hidden="true"></div>
+              <div class="relative border border-border bg-white p-6 md:p-8">
+                <dl class="space-y-5">
+                  <div><dt class="font-mono text-[10px] tracking-[0.15em] text-muted uppercase">Degree</dt><dd class="mt-1 text-[14px] text-ink">B.Tech in Computer Science &amp; Engineering</dd></div>
+                  <div><dt class="font-mono text-[10px] tracking-[0.15em] text-muted uppercase">Institution</dt><dd class="mt-1 text-[14px] text-ink">Pragati Engineering College</dd></div>
+                  <div><dt class="font-mono text-[10px] tracking-[0.15em] text-muted uppercase">Graduation</dt><dd class="mt-1 text-[14px] text-ink">May 2027</dd></div>
+                  <div><dt class="font-mono text-[10px] tracking-[0.15em] text-muted uppercase">CGPA</dt><dd class="mt-1 text-[14px] text-ink">8.62/10</dd></div>
+                  <div><dt class="font-mono text-[10px] tracking-[0.15em] text-muted uppercase">Location</dt><dd class="mt-1 text-[14px] text-ink">Andhra Pradesh, India</dd></div>
+                  <div><dt class="font-mono text-[10px] tracking-[0.15em] text-muted uppercase">Career Interests</dt><dd class="mt-1 text-[14px] text-ink">Software Engineering, SDE, Python Development</dd></div>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EXPERIENCE ===== -->
+    <section id="experience" class="py-20 md:py-32 border-t border-border">
+      <div class="max-w-[1120px] mx-auto px-6 md:px-8">
+        <div class="reveal">
+          <span class="font-mono text-[11px] tracking-[0.2em] text-muted uppercase">02 / Experience</span>
+          <h2 class="mt-4 font-serif text-[clamp(1.8rem,4vw,3rem)] tracking-[-0.02em] text-ink">Where I've contributed.</h2>
+        </div>
+
+        <div class="mt-10 md:mt-16">
+          <!-- Experience 1 -->
+          <div class="reveal grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 py-10 md:py-14" style="transition-delay:0.1s">
+            <div class="md:col-span-3">
+              <span class="font-mono text-[11px] tracking-[0.1em] text-muted">May 2026 – July 2026</span>
+              <p class="mt-1 text-[12px] text-muted">Bengaluru, India</p>
+            </div>
+            <div class="md:col-span-9">
+              <h3 class="font-serif text-xl md:text-2xl tracking-tight text-ink">Accenture</h3>
+              <p class="mt-1 text-[14px] text-ink">Custom Software Engineering Associate — Summer Internship</p>
+              <span class="inline-block mt-3 font-mono text-[10px] tracking-[0.15em] text-muted uppercase border border-border px-2 py-1">Software Engineering · Agentic AI</span>
+              <ul class="mt-5 space-y-3">
+                <li class="flex gap-3 text-[14px] leading-relaxed text-muted"><span class="mt-[7px] w-1 h-1 rounded-full bg-ink flex-shrink-0"></span>Built and maintained Python software modules supporting Agentic AI engineering initiatives within a structured enterprise internship program.</li>
+                <li class="flex gap-3 text-[14px] leading-relaxed text-muted"><span class="mt-[7px] w-1 h-1 rounded-full bg-ink flex-shrink-0"></span>Contributed to COAS (Cost-Optimized Agent Selection), a system that routes tasks to suitable AI agents by weighing their capabilities against execution costs.</li>
+                <li class="flex gap-3 text-[14px] leading-relaxed text-muted"><span class="mt-[7px] w-1 h-1 rounded-full bg-ink flex-shrink-0"></span>Collaborated with developers on reusable software components, following enterprise version control, code review, and documentation practices.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Experience 2 -->
+          <div class="reveal grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 py-10 md:py-14 border-t border-border" style="transition-delay:0.2s">
+            <div class="md:col-span-3">
+              <span class="font-mono text-[11px] tracking-[0.1em] text-muted">July 2025</span>
+            </div>
+            <div class="md:col-span-9">
+              <h3 class="font-serif text-xl md:text-2xl tracking-tight text-ink">1M1B</h3>
+              <p class="mt-1 text-[14px] text-ink">Green Intern</p>
+              <span class="inline-block mt-3 font-mono text-[10px] tracking-[0.15em] text-muted uppercase border border-border px-2 py-1">Frontend Development · Sustainability</span>
+              <ul class="mt-5 space-y-3">
+                <li class="flex gap-3 text-[14px] leading-relaxed text-muted"><span class="mt-[7px] w-1 h-1 rounded-full bg-ink flex-shrink-0"></span>Built a frontend web application focused on household environmental impact.</li>
+                <li class="flex gap-3 text-[14px] leading-relaxed text-muted"><span class="mt-[7px] w-1 h-1 rounded-full bg-ink flex-shrink-0"></span>Used HTML, CSS, and JavaScript to create an interface for estimating carbon emissions and communicating practical sustainability recommendations.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section id="projects" class="py-20 md:py-32 border-t border-border">
+      <div class="max-w-[1120px] mx-auto px-6 md:px-8">
+        <div class="reveal">
+          <span class="font-mono text-[11px] tracking-[0.2em] text-muted uppercase">03 / Selected Work</span>
+          <h2 class="mt-4 font-serif text-[clamp(1.8rem,4vw,3rem)] tracking-[-0.02em] text-ink">Projects built with purpose.</h2>
+          <p class="mt-4 max-w-[520px] text-[15px] leading-relaxed text-muted">A selection of projects exploring backend engineering, AI-powered systems, and practical web applications.</p>
+        </div>
+
+        <div class="mt-10 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Featured Project -->
+          <article class="reveal project-card md:col-span-2 border border-border bg-white hover:border-ink transition-colors duration-300 md:flex" tabindex="0" style="transition-delay:0.1s">
+            <div class="relative overflow-hidden bg-canvas md:w-1/2 aspect-[4/3] md:aspect-auto flex items-center justify-center p-6">
+              <svg viewBox="0 0 320 200" class="w-full h-full max-w-[280px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="20" y="40" width="60" height="80" rx="2" stroke="#171717" stroke-width="1.5" />
+                <line x1="30" y1="55" x2="70" y2="55" stroke="#171717" stroke-width="1" />
+                <line x1="30" y1="65" x2="65" y2="65" stroke="#171717" stroke-width="1" />
+                <line x1="30" y1="75" x2="70" y2="75" stroke="#171717" stroke-width="1" />
+                <line x1="30" y1="85" x2="60" y2="85" stroke="#171717" stroke-width="1" />
+                <path d="M85 80 L115 80" stroke="#171717" stroke-width="1.5" marker-end="url(#arrowhead)" />
+                <defs><marker id="arrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto"><polygon points="0 0, 6 2, 0 4" fill="#171717" /></marker></defs>
+                <rect x="120" y="30" width="100" height="100" rx="2" stroke="#171717" stroke-width="1.5" />
+                <text x="170" y="50" text-anchor="middle" font-size="7" fill="#707070" font-family="monospace">RETRIEVAL</text>
+                <line x1="130" y1="58" x2="210" y2="58" stroke="#E5E5E3" stroke-width="1" />
+                <rect x="130" y="65" width="30" height="8" rx="1" fill="#F7F7F5" stroke="#E5E5E3" />
+                <rect x="168" y="65" width="30" height="8" rx="1" fill="#F7F7F5" stroke="#E5E5E3" />
+                <rect x="130" y="78" width="30" height="8" rx="1" fill="#F7F7F5" stroke="#E5E5E3" />
+                <rect x="168" y="78" width="30" height="8" rx="1" fill="#171717" />
+                <text x="183" y="84" text-anchor="middle" font-size="5" fill="white">SELECTED</text>
+                <rect x="130" y="91" width="30" height="8" rx="1" fill="#F7F7F5" stroke="#E5E5E3" />
+                <rect x="168" y="91" width="30" height="8" rx="1" fill="#F7F7F5" stroke="#E5E5E3" />
+                <path d="M225 80 L255 80" stroke="#171717" stroke-width="1.5" marker-end="url(#arrowhead)" />
+                <rect x="260" y="50" width="45" height="60" rx="2" stroke="#171717" stroke-width="1.5" />
+                <text x="282" y="70" text-anchor="middle" font-size="6" fill="#171717">ANSWER</text>
+                <line x1="268" y1="78" x2="297" y2="78" stroke="#E5E5E3" stroke-width="1" />
+                <line x1="268" y1="85" x2="292" y2="85" stroke="#E5E5E3" stroke-width="1" />
+                <line x1="268" y1="92" x2="297" y2="92" stroke="#E5E5E3" stroke-width="1" />
+              </svg>
+              <span class="absolute top-4 left-4 font-mono text-[10px] tracking-[0.15em] text-muted">01</span>
+            </div>
+            <div class="p-6 md:p-8 flex flex-col md:w-1/2">
+              <h3 class="font-serif text-xl md:text-2xl tracking-tight text-ink">AI Technical Knowledge Assistant</h3>
+              <p class="mt-3 text-[14px] leading-relaxed text-muted">Built a document question-answering service using Python and FastAPI that accepts user-uploaded documents and answers technical queries based on their contents.</p>
+              <ul class="mt-4 space-y-2">
+                <li class="flex gap-2.5 text-[13px] leading-relaxed text-muted"><span class="mt-[6px] w-1 h-1 rounded-full bg-ink flex-shrink-0"></span>Implemented a Retrieval-Augmented Generation pipeline covering document parsing, chunking, passage retrieval, and LLM prompt construction.</li>
+                <li class="flex gap-2.5 text-[13px] leading-relaxed text-muted"><span class="mt-[6px] w-1 h-1 rounded-full bg-ink flex-shrink-0"></span>Designed the workflow to ground generated answers in retrieved source material.</li>
+                <li class="flex gap-2.5 text-[13px] leading-relaxed text-muted"><span class="mt-[6px] w-1 h-1 rounded-full bg-ink flex-shrink-0"></span>Exposed document upload and query functionality through REST endpoints.</li>
+                <li class="flex gap-2.5 text-[13px] leading-relaxed text-muted"><span class="mt-[6px] w-1 h-1 rounded-full bg-ink flex-shrink-0"></span>Kept retrieval and generation logic modular and independently testable.</li>
+              </ul>
+              <div class="mt-auto pt-6">
+                <div class="flex flex-wrap gap-2">
+                  <span class="font-mono text-[10px] tracking-[0.1em] text-muted border border-border px-2 py-1">Python</span>
+                  <span class="font-mono text-[10px] tracking-[0.1em] text-muted border border-border px-2 py-1">FastAPI</span>
+                  <span class="font-mono text-[10px] tracking-[0.1em] text-muted border border-border px-2 py-1">LLMs</span>
+                  <span class="font-mono text-[10px] tracking-[0.1em] text-muted border border-border px-2 py-1">RAG</span>
+                </div>
+                <span class="mt-5 inline-flex items-center gap-1 text-[12px] text-muted">View Details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="reveal project-card border border-border bg-white hover:border-ink transition-colors duration-300 flex flex-col" tabindex="0" style="transition-delay:0.2s">
+            <div class="relative overflow-hidden bg-canvas aspect-[4/3] flex items-center justify-center p-6">
+              <svg viewBox="0 0 200 160" class="w-full h-full max-w-[180px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="80" r="50" stroke="#171717" stroke-width="1.5" />
+                <circle cx="100" cy="80" r="35" stroke="#E5E5E3" stroke-width="1" />
+                <circle cx="100" cy="80" r="20" stroke="#E5E5E3" stroke-width="1" />
+                <path d="M100 30 L100 50" stroke="#171717" stroke-width="1.5" />
+                <path d="M100 110 L100 130" stroke="#E5E5E3" stroke-width="1" />
+                <path d="M50 80 L70 80" stroke="#E5E5E3" stroke-width="1" />
+                <path d="M130 80 L150 80" stroke="#E5E5E3" stroke-width="1" />
+                <text x="100" y="84" text-anchor="middle" font-size="10" fill="#171717" font-family="monospace">CO₂</text>
+              </svg>
+              <span class="absolute top-4 left-4 font-mono text-[10px] tracking-[0.15em] text-muted">02</span>
+            </div>
+            <div class="p-6 flex flex-col flex-1">
+              <h3 class="font-serif text-xl tracking-tight text-ink">Carbon Footprint Calculator for Households</h3>
+              <p class="mt-3 text-[14px] leading-relaxed text-muted">A web application that estimates household carbon emissions from user-entered consumption data and offers targeted reduction and reuse recommendations.</p>
+              <ul class="mt-4 space-y-2">
+                <li class="flex gap-2.5 text-[13px] leading-relaxed text-muted"><span class="mt-[6px] w-1 h-1 rounded-full bg-ink flex-shrink-0"></span>Built a browser-based interface for collecting household consumption inputs.</li>
+                <li class="flex gap-2.5 text-[13px] leading-relaxed text-muted"><span class="mt-[6px] w-1 h-1 rounded-full bg-ink flex-shrink-0"></span>Presented estimated environmental impact in an understandable format.</li>
+                <li class="flex gap-2.5 text-[13px] leading-relaxed text-muted"><span class="mt-[6px] w-1 h-1 rounded-full bg-ink flex-shrink-0"></span>Provided practical suggestions to help users reduce their household footprint.</li>
+                <li class="flex gap-2.5 text-[13px] leading-relaxed text-muted"><span class="mt-[6px] w-1 h-1 rounded-full bg-ink flex-shrink-0"></span>Developed the application as part of the 1M1B Green Internship.</li>
+              </ul>
+              <div class="mt-auto pt-6">
+                <div class="flex flex-wrap gap-2">
+                  <span class="font-mono text-[10px] tracking-[0.1em] text-muted border border-border px-2 py-1">HTML</span>
+                  <span class="font-mono text-[10px] tracking-[0.1em] text-muted border border-border px-2 py-1">CSS</span>
+                  <span class="font-mono text-[10px] tracking-[0.1em] text-muted border border-border px-2 py-1">JavaScript</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3 -->
+          <article class="reveal project-card border border-border bg-white hover:border-ink transition-colors duration-300 flex flex-col" tabindex="0" style="transition-delay:0.3s">
+            <div class="relative overflow-hidden bg-canvas aspect-[4/3] flex items-center justify-center p-6">
+              <svg viewBox="0 0 200 160" class="w-full h-full max-w-[180px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="80" cy="60" r="35" stroke="#171717" stroke-width="1.5" />
+                <circle cx="120" cy="80" r="35" stroke="#E5E5E3" stroke-width="1.5" />
+                <circle cx="100" cy="100" r="35" stroke="#E5E5E3" stroke-width="1" />
+                <rect x="60" y="50" width="80" height="60" rx="2" stroke="#171717" stroke-width="1.5" fill="white" fill-opacity="0.8" />
+                <line x1="70" y1="65" x2="130" y2="65" stroke="#E5E5E3" stroke-width="1" />
+                <line x1="70" y1="75" x2="120" y2="75" stroke="#E5E5E3" stroke-width="1" />
+                <line x1="70" y1="85" x2="130" y2="85" stroke="#E5E5E3" stroke-width="1" />
+                <line x1="70" y1="95" x2="110" y2="95" stroke="#E5E5E3" stroke-width="1" />
+              </svg>
+              <span class="absolute top-4 left-4 font-mono text-[10px] tracking-[0.15em] text-muted">03</span>
+            </div>
+            <div class="p-6 flex flex-col flex-1">
+              <h3 class="font-serif text-xl tracking-tight text-ink">EduMinds</h3>
+              <p class="mt-3 text-[14px] leading-relaxed text-muted">A web application designed to provide accessible remote wellbeing resources that help students manage stress associated with online learning.</p>
+              <ul class="mt-4 space-y-2">
+                <li class="flex gap-2.5 text-[13px] leading-relaxed text-muted"><span class="mt-[6px] w-1 h-1 rounded-full bg-ink flex-shrink-0"></span>Developed a clean, accessible frontend experience.</li>
+                <li class="flex gap-2.5 text-[13px] leading-relaxed text-muted"><span class="mt-[6px] w-1 h-1 rounded-full bg-ink flex-shrink-0"></span>Organized wellbeing resources for straightforward navigation.</li>
+                <li class="flex gap-2.5 text-[13px] leading-relaxed text-muted"><span class="mt-[6px] w-1 h-1 rounded-full bg-ink flex-shrink-0"></span>Focused on a simple, approachable user interface.</li>
+              </ul>
+              <div class="mt-auto pt-6">
+                <div class="flex flex-wrap gap-2">
+                  <span class="font-mono text-[10px] tracking-[0.1em] text-muted border border-border px-2 py-1">HTML</span>
+                  <span class="font-mono text-[10px] tracking-[0.1em] text-muted border border-border px-2 py-1">CSS</span>
+                  <span class="font-mono text-[10px] tracking-[0.1em] text-muted border border-border px-2 py-1">JavaScript</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section id="skills" class="py-20 md:py-32 border-t border-border">
+      <div class="max-w-[1120px] mx-auto px-6 md:px-8">
+        <div class="reveal">
+          <span class="font-mono text-[11px] tracking-[0.2em] text-muted uppercase">04 / Toolkit</span>
+          <h2 class="mt-4 font-serif text-[clamp(1.8rem,4vw,3rem)] tracking-[-0.02em] text-ink">Technologies I work with.</h2>
+        </div>
+
+        <div class="mt-10 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+          <div class="reveal" style="transition-delay:0.05s">
+            <h3 class="font-mono text-[11px] tracking-[0.2em] text-muted uppercase">Programming Languages</h3>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">Python</span>
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">Java</span>
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">C</span>
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">SQL</span>
+            </div>
+          </div>
+          <div class="reveal" style="transition-delay:0.1s">
+            <h3 class="font-mono text-[11px] tracking-[0.2em] text-muted uppercase">CS Fundamentals</h3>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">Data Structures &amp; Algorithms</span>
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">Object-Oriented Programming</span>
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">Database Management Systems</span>
+            </div>
+          </div>
+          <div class="reveal" style="transition-delay:0.15s">
+            <h3 class="font-mono text-[11px] tracking-[0.2em] text-muted uppercase">Backend &amp; APIs</h3>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">FastAPI</span>
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">REST APIs</span>
+            </div>
+          </div>
+          <div class="reveal" style="transition-delay:0.2s">
+            <h3 class="font-mono text-[11px] tracking-[0.2em] text-muted uppercase">AI &amp; Generative AI</h3>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">Machine Learning</span>
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">Agentic AI</span>
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">Large Language Models</span>
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">Retrieval-Augmented Generation</span>
+            </div>
+          </div>
+          <div class="reveal" style="transition-delay:0.25s">
+            <h3 class="font-mono text-[11px] tracking-[0.2em] text-muted uppercase">Web Development</h3>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">HTML</span>
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">CSS</span>
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">JavaScript</span>
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">React</span>
+            </div>
+          </div>
+          <div class="reveal" style="transition-delay:0.3s">
+            <h3 class="font-mono text-[11px] tracking-[0.2em] text-muted uppercase">Tools &amp; Collaboration</h3>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">Git</span>
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">Version Control</span>
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">Code Review</span>
+              <span class="chip text-[13px] text-ink border border-border px-3 py-1.5 cursor-default">Technical Documentation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EDUCATION ===== -->
+    <section id="education" class="py-20 md:py-32 border-t border-border">
+      <div class="max-w-[1120px] mx-auto px-6 md:px-8">
+        <div class="reveal">
+          <span class="font-mono text-[11px] tracking-[0.2em] text-muted uppercase">05 / Education</span>
+          <h2 class="mt-4 font-serif text-[clamp(1.8rem,4vw,3rem)] tracking-[-0.02em] text-ink">Academic foundation.</h2>
+        </div>
+
+        <div class="mt-10 md:mt-16">
+          <div class="reveal grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 py-8 md:py-10 relative" style="transition-delay:0.1s">
+            <div class="absolute left-0 top-0 bottom-0 w-[3px] bg-ink" aria-hidden="true"></div>
+            <div class="md:col-span-3 pl-4 md:pl-6"><span class="font-mono text-[11px] tracking-[0.1em] text-muted">September 2023 – May 2027</span></div>
+            <div class="md:col-span-6 pl-4 md:pl-0">
+              <h3 class="font-serif text-lg md:text-xl tracking-tight text-ink">Pragati Engineering College, Surampalem</h3>
+              <p class="mt-1 text-[14px] text-ink">B.Tech in Computer Science &amp; Engineering</p>
+            </div>
+            <div class="md:col-span-3 pl-4 md:pl-0 md:text-right"><span class="font-mono text-[12px] text-ink">CGPA: 8.62/10</span></div>
+          </div>
+          <div class="reveal grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 py-8 md:py-10 border-t border-border" style="transition-delay:0.2s">
+            <div class="md:col-span-3 pl-4 md:pl-0"><span class="font-mono text-[11px] tracking-[0.1em] text-muted">July 2021 – April 2023</span></div>
+            <div class="md:col-span-6 pl-4 md:pl-0">
+              <h3 class="font-serif text-lg md:text-xl tracking-tight text-muted">Narayana Junior College, Vijayawada</h3>
+              <p class="mt-1 text-[14px] text-muted">Intermediate — MPC</p>
+            </div>
+            <div class="md:col-span-3 pl-4 md:pl-0 md:text-right"><span class="font-mono text-[12px] text-muted">Percentage: 89.8%</span></div>
+          </div>
+          <div class="reveal grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 py-8 md:py-10 border-t border-border" style="transition-delay:0.3s">
+            <div class="md:col-span-3 pl-4 md:pl-0"><span class="font-mono text-[11px] tracking-[0.1em] text-muted">Completion: 2021</span></div>
+            <div class="md:col-span-6 pl-4 md:pl-0">
+              <h3 class="font-serif text-lg md:text-xl tracking-tight text-muted">Manasa English Medium High School, Bhimadole</h3>
+              <p class="mt-1 text-[14px] text-muted">SSC — Class 10</p>
+            </div>
+            <div class="md:col-span-3 pl-4 md:pl-0 md:text-right"><span class="font-mono text-[12px] text-muted">Percentage: 96%</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CERTIFICATIONS ===== -->
+    <section id="certifications" class="py-20 md:py-32 border-t border-border">
+      <div class="max-w-[1120px] mx-auto px-6 md:px-8">
+        <div class="reveal">
+          <span class="font-mono text-[11px] tracking-[0.2em] text-muted uppercase">06 / Certifications</span>
+          <h2 class="mt-4 font-serif text-[clamp(1.8rem,4vw,3rem)] tracking-[-0.02em] text-ink">Learning beyond the classroom.</h2>
+        </div>
+
+        <div class="mt-10 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="reveal flex items-start gap-3 p-5 border border-border bg-white hover:border-ink transition-colors duration-300 h-full" style="transition-delay:0.05s">
+            <svg class="text-muted mt-0.5 flex-shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            <div><h3 class="text-[14px] text-ink leading-snug">Programming in Java</h3><p class="mt-1 font-mono text-[10px] tracking-[0.1em] text-muted uppercase">NPTEL</p></div>
+          </div>
+          <div class="reveal flex items-start gap-3 p-5 border border-border bg-white hover:border-ink transition-colors duration-300 h-full" style="transition-delay:0.1s">
+            <svg class="text-muted mt-0.5 flex-shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            <div><h3 class="text-[14px] text-ink leading-snug">Data Science Using Python</h3><p class="mt-1 font-mono text-[10px] tracking-[0.1em] text-muted uppercase">February 2024</p></div>
+          </div>
+          <div class="reveal flex items-start gap-3 p-5 border border-border bg-white hover:border-ink transition-colors duration-300 h-full" style="transition-delay:0.15s">
+            <svg class="text-muted mt-0.5 flex-shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            <div><h3 class="text-[14px] text-ink leading-snug">C Programming</h3></div>
+          </div>
+          <div class="reveal flex items-start gap-3 p-5 border border-border bg-white hover:border-ink transition-colors duration-300 h-full" style="transition-delay:0.2s">
+            <svg class="text-muted mt-0.5 flex-shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            <div><h3 class="text-[14px] text-ink leading-snug">Fundamentals of Machine Learning and Artificial Intelligence</h3></div>
+          </div>
+          <div class="reveal flex items-start gap-3 p-5 border border-border bg-white hover:border-ink transition-colors duration-300 h-full" style="transition-delay:0.25s">
+            <svg class="text-muted mt-0.5 flex-shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            <div><h3 class="text-[14px] text-ink leading-snug">GenAI-Powered Data Analytics Job Simulation</h3></div>
+          </div>
+          <div class="reveal flex items-start gap-3 p-5 border border-border bg-white hover:border-ink transition-colors duration-300 h-full" style="transition-delay:0.3s">
+            <svg class="text-muted mt-0.5 flex-shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            <div><h3 class="text-[14px] text-ink leading-snug">AI Skills Passport</h3></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" class="py-20 md:py-32 border-t border-border">
+      <div class="max-w-[1120px] mx-auto px-6 md:px-8">
+        <div class="reveal">
+          <span class="font-mono text-[11px] tracking-[0.2em] text-muted uppercase">07 / Contact</span>
+          <h2 class="mt-4 font-serif text-[clamp(1.8rem,4vw,3rem)] tracking-[-0.02em] text-ink">Let's build something meaningful.</h2>
+          <p class="mt-4 max-w-[560px] text-[15px] leading-relaxed text-muted">I'm open to entry-level Software Engineer, SDE, and Python Developer opportunities. If you're hiring, building an interesting product, or interested in discussing software engineering and AI, I'd love to connect.</p>
+        </div>
+
+        <div class="mt-10 md:mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+          <div class="reveal" style="transition-delay:0.1s">
+            <div class="space-y-6">
+              <div>
+                <span class="font-mono text-[10px] tracking-[0.15em] text-muted uppercase">Name</span>
+                <p class="mt-1 text-[15px] text-ink">GUDIMETLA G SAI ABHIRAM</p>
+              </div>
+              <div class="w-full h-px bg-border"></div>
+              <div>
+                <span class="font-mono text-[10px] tracking-[0.15em] text-muted uppercase">Phone</span>
+                <a href="tel:+919491331071" class="mt-1 flex items-center gap-2 text-[15px] text-ink hover:text-muted transition-colors">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  +91 9491331071
+                </a>
+              </div>
+              <div class="w-full h-px bg-border"></div>
+              <div>
+                <span class="font-mono text-[10px] tracking-[0.15em] text-muted uppercase">Email</span>
+                <div class="mt-1 flex items-center gap-3 flex-wrap">
+                  <a href="mailto:gunashekarsaiabhiram@gmail.com" class="flex items-center gap-2 text-[15px] text-ink hover:text-muted transition-colors">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    gunashekarsaiabhiram@gmail.com
+                  </a>
+                  <button id="copyEmailBtn" class="inline-flex items-center gap-1 text-[11px] font-mono tracking-[0.1em] text-muted border border-border px-2 py-1 hover:border-ink hover:text-ink transition-all" aria-label="Copy email address">
+                    <svg id="copyIcon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    <span id="copyText">COPY</span>
+                  </button>
+                </div>
+              </div>
+              <div class="w-full h-px bg-border"></div>
+              <div>
+                <span class="font-mono text-[10px] tracking-[0.15em] text-muted uppercase">Location</span>
+                <p class="mt-1 flex items-center gap-2 text-[15px] text-ink">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  Andhra Pradesh, India
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="reveal" style="transition-delay:0.2s">
+            <div class="border border-border bg-white p-6 md:p-8">
+              <h3 class="font-mono text-[11px] tracking-[0.2em] text-muted uppercase">Find me online</h3>
+              <div class="mt-5 space-y-1">
+                <a href="https://www.linkedin.com/in/gunashekar-sai-abhiram-gudimetla-842734294" target="_blank" rel="noreferrer" class="group flex items-center justify-between py-3 border-b border-border text-[14px] text-muted hover:text-ink transition-colors">
+                  <span class="flex items-center gap-3"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</span>
+                  <svg class="opacity-0 group-hover:opacity-100 transition-opacity" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                </a>
+                <a href="https://github.com/Abhiram12344" target="_blank" rel="noreferrer" class="group flex items-center justify-between py-3 border-b border-border text-[14px] text-muted hover:text-ink transition-colors">
+                  <span class="flex items-center gap-3"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</span>
+                  <svg class="opacity-0 group-hover:opacity-100 transition-opacity" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                </a>
+                <a href="https://leetcode.com/u/Sai_Abhiram____/" target="_blank" rel="noreferrer" class="group flex items-center justify-between py-3 border-b border-border text-[14px] text-muted hover:text-ink transition-colors">
+                  <span class="flex items-center gap-3"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>LeetCode</span>
+                  <svg class="opacity-0 group-hover:opacity-100 transition-opacity" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                </a>
+                <a href="https://www.hackerrank.com/profile/23A31A05A7" target="_blank" rel="noreferrer" class="group flex items-center justify-between py-3 text-[14px] text-muted hover:text-ink transition-colors">
+                  <span class="flex items-center gap-3"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>HackerRank</span>
+                  <svg class="opacity-0 group-hover:opacity-100 transition-opacity" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                </a>
+              </div>
+              <p class="mt-4 font-mono text-[10px] text-border tracking-[0.1em]">URL PLACEHOLDERS — REPLACE WHEN AVAILABLE</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="border-t border-border">
+    <div class="max-w-[1120px] mx-auto px-6 md:px-8 py-10 md:py-12">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <span class="font-mono text-[11px] tracking-[0.1em] text-muted">© 2026 GUDIMETLA G SAI ABHIRAM</span>
+        <span class="font-serif text-[13px] italic text-muted">Designed with intention. Built with code.</span>
+        <a href="#home" class="font-mono text-[11px] tracking-[0.1em] text-muted hover:text-ink transition-colors">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ===== ID Card 3D tilt on cursor move =====
+    (function() {
+      const scene = document.getElementById('idCardScene');
+      const card = document.getElementById('idCard');
+      if (!scene || !card) return;
+
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) return;
+
+      let rafId = null;
+      let targetRotateX = 0, targetRotateY = 0;
+      let currentRotateX = 0, currentRotateY = 0;
+
+      function lerp(a, b, t) { return a + (b - a) * t; }
+
+      function animate() {
+        currentRotateX = lerp(currentRotateX, targetRotateX, 0.12);
+        currentRotateY = lerp(currentRotateY, targetRotateY, 0.12);
+        card.style.transform = `rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg)`;
+        rafId = requestAnimationFrame(animate);
+      }
+
+      document.addEventListener('mousemove', function(e) {
+        const rect = scene.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const dx = (e.clientX - centerX) / (rect.width / 2);
+        const dy = (e.clientY - centerY) / (rect.height / 2);
+
+        // Clamp to -1..1 and multiply by max tilt
+        targetRotateY = Math.max(-1, Math.min(1, dx)) * 12;
+        targetRotateX = Math.max(-1, Math.min(1, -dy)) * 8;
+      });
+
+      document.addEventListener('mouseleave', function() {
+        targetRotateX = 0;
+        targetRotateY = 0;
+      });
+
+      animate();
+    })();
+
+    // ===== Navbar scroll state =====
+    const navbar = document.getElementById('navbar');
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('[data-nav]');
+
+    function onScroll() {
+      if (window.scrollY > 20) {
+        navbar.classList.add('bg-canvas/80', 'backdrop-blur-md', 'border-b', 'border-border');
+        navbar.classList.remove('bg-transparent', 'border-transparent');
+      } else {
+        navbar.classList.remove('bg-canvas/80', 'backdrop-blur-md', 'border-b', 'border-border');
+        navbar.classList.add('bg-transparent', 'border-transparent');
+      }
+
+      const scrollPos = window.scrollY + 120;
+      let current = 'home';
+      sections.forEach(function(sec) {
+        if (sec.offsetTop <= scrollPos) current = sec.id;
+      });
+
+      navLinks.forEach(function(link) {
+        if (link.dataset.nav === current) {
+          link.classList.add('active', 'text-ink');
+          link.classList.remove('text-muted');
+        } else {
+          link.classList.remove('active', 'text-ink');
+          link.classList.add('text-muted');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // ===== Mobile menu =====
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuIcon = document.getElementById('menuIcon');
+    const closeIcon = document.getElementById('closeIcon');
+
+    mobileMenuBtn.addEventListener('click', function() {
+      const isOpen = !mobileMenu.classList.contains('hidden');
+      if (isOpen) {
+        mobileMenu.classList.add('hidden');
+        menuIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+      } else {
+        mobileMenu.classList.remove('hidden');
+        menuIcon.classList.add('hidden');
+        closeIcon.classList.remove('hidden');
+        mobileMenuBtn.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    document.querySelectorAll('.mobile-nav-link').forEach(function(link) {
+      link.addEventListener('click', function() {
+        mobileMenu.classList.add('hidden');
+        menuIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // ===== Copy email =====
+    const copyBtn = document.getElementById('copyEmailBtn');
+    const copyText = document.getElementById('copyText');
+    const copyIcon = document.getElementById('copyIcon');
+    const email = 'gunashekarsaiabhiram@gmail.com';
+
+    copyBtn.addEventListener('click', function() {
+      navigator.clipboard.writeText(email).then(function() {
+        copyText.textContent = 'COPIED';
+        copyIcon.outerHTML = '<svg id="copyIcon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+        setTimeout(function() {
+          copyText.textContent = 'COPY';
+          document.getElementById('copyIcon').outerHTML = '<svg id="copyIcon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+        }, 2000);
+      }).catch(function() {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = email;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        copyText.textContent = 'COPIED';
+        setTimeout(function() { copyText.textContent = 'COPY'; }, 2000);
+      });
+    });
+
+    // ===== Reveal on scroll =====
+    const revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      revealObserver.observe(el);
+    });
+  </script>
+</body>
+</html>
